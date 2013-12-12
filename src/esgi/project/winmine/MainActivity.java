@@ -10,8 +10,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Grid grid = new Grid(9,9,5);
-        grid.InitGrid();
+//        Grid grid = new Grid(9,9,10);
+//        grid.InitGrid();
     }
 
 

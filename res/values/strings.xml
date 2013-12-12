@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Winmine</string>
+    <string name="app_name">Minesweeper</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="winmine_title">Welcome to winmine</string>
+    
+    <string name="button_start_game">Start Game</string>
+    <string name="button_high_score">High Scores</string>
+    <string name="button_easy">Easy</string>
+    <string name="button_classic">Classic</string>
+    <string name="button_hard">Hard</string>
+    <string name="button_back">Back</string>
 
 </resources>

@@ -4,21 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
-	public int height;
-	public int width;
-	public int numberOfBombs;	
-	public Cell[][] grid;
-	public List<Cell> bombCoords;
+	private int height;
+	private int width;
+	private int numberOfBombs;	
+	private Cell[][] grid;
+	private List<Cell> bombCoords;	
 	
 	public Grid() {
-		this.height = 5;
-		this.width = 5;
-		this.numberOfBombs = 10;
-		this.grid = new Cell[width][height];
-		this.bombCoords = new ArrayList<Cell>();
+		initVariables(5, 5, 10);
 	}
 	
 	public Grid(int w, int h, int b) {
+		initVariables(w, h, b);
+	}
+	
+	public Grid(int level) {
+		switch(level) {
+			case 1:
+				initVariables(5, 5, 5);
+				break;
+				
+			case 2:
+				initVariables(10, 10, 10);
+				break;
+				
+			case 3:
+				initVariables(14, 14, 40);
+				break;
+		}
+	}
+	
+	private void initVariables(int w, int h, int b) {
 		this.height = h;
 		this.width = w;
 		this.numberOfBombs = b;
@@ -50,7 +66,7 @@ public class Grid {
 		this.SetClues();
 	}
 	
-	public void SetClues() {		
+	private void SetClues() {		
 		for(Cell c : this.bombCoords) {
 			int modifierW = -1;
 			int modifierH = -1;
