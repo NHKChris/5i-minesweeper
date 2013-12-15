@@ -21,7 +21,7 @@ public class Grid {
 	public Grid(int level) {
 		switch(level) {
 			case 1:
-				initVariables(5, 5, 5);
+				initVariables(5, 10, 5);
 				break;
 				
 			case 2:
@@ -62,9 +62,31 @@ public class Grid {
 			}
 		} while(bomb > 0); 
 		
-//		this.DisplayGrid();
 		this.SetClues();
 	}
+	
+	// Get methods
+	
+	public int getHeight() {
+		return this.height;
+	}
+	
+	public int getWidth() {
+		return this.width;
+	}
+	
+	public int getNumberOfBombs() {
+		return this.numberOfBombs;
+	}
+	
+	public Cell[][] getGrid() {
+		return this.grid;
+	}
+	
+	public List<Cell> getBombCoords() {
+		return this.bombCoords;
+	}	
+	
 	
 	private void SetClues() {		
 		for(Cell c : this.bombCoords) {
