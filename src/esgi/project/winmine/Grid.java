@@ -21,7 +21,7 @@ public class Grid {
 	public Grid(int level) {
 		switch(level) {
 			case 1:
-				initVariables(5, 10, 5);
+				initVariables(5, 8, 5);
 				break;
 				
 			case 2:
