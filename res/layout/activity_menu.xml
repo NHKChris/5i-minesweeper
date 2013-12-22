@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical" 
+    tools:context=".GameMenuActivity">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="124dp"
+        android:layout_height="266dp"
+        android:layout_gravity="center_horizontal"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/button_start_game" 
+        android:onClick="startGame"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/button_high_score" 
+        android:onClick="test2"/>
+
+</LinearLayout>

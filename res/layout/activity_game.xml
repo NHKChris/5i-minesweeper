@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gameLinearLayout"
+    android:orientation="vertical" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <GridView
+	    android:id="@+id/gameGrid"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:columnWidth="0dp"
+	    android:verticalSpacing="0dp"
+	    android:horizontalSpacing="0dp"
+	    android:gravity="center"
+	/>
+    
+
+<!--    	<TextView
+   	    android:id="@+id/gameChrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"/> -->
+    
+<!-- 	<TableLayout
+	 	android:id="@+id/gameLayout" 
+		android:layout_width="fill_parent"
+   		android:layout_height="fill_parent"
+    	android:stretchColumns="1">
+	    
+	</TableLayout> -->
+
+</LinearLayout>
