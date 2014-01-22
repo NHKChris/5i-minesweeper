@@ -16,18 +16,18 @@
 	/>
     
 
-   	<TextView
+<!--    	<TextView
    	    android:id="@+id/gameChrono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00:00"/>
+        android:text="00:00:00"/> -->
     
-	<!--<TableLayout
-		 	android:id="@+id/gameLayout" 
-			android:layout_width="fill_parent"
-	   		android:layout_height="fill_parent"
-	    	android:stretchColumns="1">
-		    
-		</TableLayout> -->
+<!-- 	<TableLayout
+	 	android:id="@+id/gameLayout" 
+		android:layout_width="fill_parent"
+   		android:layout_height="fill_parent"
+    	android:stretchColumns="1">
+	    
+	</TableLayout> -->
 
 </LinearLayout>

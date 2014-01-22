@@ -1,25 +1,15 @@
 package esgi.project.winmine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 class GameState {
 	public static final int START = 0;
@@ -35,6 +25,7 @@ public class GameActivity extends Activity {
 	private Cell[][] gridCells;
 	private GridView gridView;
 	private int gameState;
+	@SuppressWarnings("unused")
 	private int numberOfFlag;
 	private int numberOfCellsDisplayed;
 	private int numberOfDisplayedNeeded;
