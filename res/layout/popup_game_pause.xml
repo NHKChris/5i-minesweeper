@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/popup_element"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#202020"
+	android:minHeight="400dp"
+	android:orientation="vertical"
+	android:gravity="center"
+	android:padding="10sp" 
+	android:layout_weight="1">
+	
+	<!-- <TextView
+	android:id="@+id/labelPause"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="5sp"
+	android:text="@string/label_pause" />
+	 -->
+
+	 
+	<Button
+		android:id="@+id/buttonResume"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:text="@string/button_resume" 
+		android:onClick="resumeGame"/>
+	
+	<Button
+		android:id="@+id/buttonRestart"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:text="@string/button_restart" 
+		android:onClick="restartGame"/>
+	
+	<Button
+		android:id="@+id/buttonQuit"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:text="@string/button_quit_to_menu" 
+		android:onClick="quitGame"/>
+</LinearLayout>
