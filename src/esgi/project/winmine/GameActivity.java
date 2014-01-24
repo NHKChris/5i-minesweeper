@@ -2,14 +2,23 @@ package esgi.project.winmine;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 class GameState {
 	public static final int START = 0;
@@ -19,16 +28,33 @@ class GameState {
 }
 
 public class GameActivity extends Activity {
+	private String level;
+	
 	private Grid grid;
 	private int gridHeight;
 	private int gridWidth;
 	private Cell[][] gridCells;
 	private GridView gridView;
 	private int gameState;
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private int numberOfFlag;
 	private int numberOfCellsDisplayed;
 	private int numberOfDisplayedNeeded;
+	
+	private boolean startTimer = false;
+	private TextView timerValue;	
+	private Handler customHandler = new Handler();
+
+	private long startTime;
+	private long timeInMilliseconds;
+	private long timeSwapBuff;
+	private long updatedTime;
+	
+	private TextView flagsValue;
+	private TextView highScore;
+	
+	private PopupWindow popupPause;
+	private PopupWindow popupEnd;
 	
 	private static Integer[] gridImages = {
 		R.drawable.cell_0,
@@ -51,9 +77,16 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);  
         
         Intent intent = getIntent();
-        String value = intent.getStringExtra("level");
+        level = intent.getStringExtra("level");
         
-        this.initGame(value);
+        this.initGame(level);
+        
+        timerValue = (TextView) findViewById(R.id.gameTimer);
+        flagsValue = (TextView) findViewById(R.id.gameFlag);         
+        flagsValue.setText("Flags: " + numberOfFlag + "/" + grid.getNumberOfBombs());
+        
+        highScore = (TextView) findViewById(R.id.gameHighScore);
+        highScore.setText("Best time : 00:00:000");
     }
 
 	public void initGame(String value) {    	
@@ -65,10 +98,16 @@ public class GameActivity extends Activity {
 		numberOfFlag = 0;
 		numberOfCellsDisplayed = 0;
 		numberOfDisplayedNeeded = gridHeight * gridWidth - grid.getNumberOfBombs();
-		
+
     	setGridView();
+    	
+    	startTimer = false;
+    	startTime = 0L;
+    	timeInMilliseconds = 0L;
+    	timeSwapBuff = 0L;
+    	updatedTime = 0L;
+    	
     	gameState = GameState.START;
-//    	setView();
 	}
 	
 	public void setGridView() {
@@ -78,7 +117,7 @@ public class GameActivity extends Activity {
 
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	        	if(gameState != GameState.END) {
+	        	if(gameState == GameState.START) {
 		    		Cell cellClicked = getCellClicked(position);
 		    		checkCell(cellClicked);
 		    		checkGame();
@@ -88,7 +127,7 @@ public class GameActivity extends Activity {
 		
 		gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 	        public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-	        	if(gameState != GameState.END) {
+	        	if(gameState == GameState.START) {
 		        	setFlag(position);
 	        	}
 	        	return true;
@@ -97,6 +136,12 @@ public class GameActivity extends Activity {
 	}
 	
 	public Cell getCellClicked(int position) {
+		if(!startTimer) {
+			startTimer = true;
+			startTime = SystemClock.uptimeMillis();
+			customHandler.postDelayed(updateTimerThread, 0);
+		}
+		
 		int posX = 0;
 		int posY = 0;
 		
@@ -109,7 +154,7 @@ public class GameActivity extends Activity {
 	}
 	
 	public void checkCell(Cell cell) {
-		if(!cell.IsDisplayed()) {
+		if(!cell.IsDisplayed() && !cell.IsFlag()) {
 			int value = cell.GetValue();
 			displayCell(cell);
 			
@@ -157,8 +202,7 @@ public class GameActivity extends Activity {
 				modifierH++;
 			}
 			modifierW++;
-		}		
-
+		}
  	}
 	
 	public void displayCell(Cell cell) {
@@ -192,7 +236,22 @@ public class GameActivity extends Activity {
 			ImageView imageView = (ImageView)gridView.getChildAt(position);
 			imageView.setImageResource(draw);
 		}
+		flagsValue.setText("Flags: " + numberOfFlag + "/" + grid.getNumberOfBombs());
 	}
+	
+	private Runnable updateTimerThread = new Runnable() {
+		public void run() {
+			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;			
+			updatedTime = timeSwapBuff + timeInMilliseconds;
+			
+			int seconds = (int) (updatedTime / 1000);
+			int minutes = seconds / 60;
+			seconds = seconds % 60;
+			int milliseconds = (int) (updatedTime % 1000);
+			timerValue.setText("" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds) + ":" + String.format("%03d", milliseconds));
+			customHandler.postDelayed(this, 0);
+		}
+	};
 	
 	public void checkGame() {
 		if(numberOfDisplayedNeeded == numberOfCellsDisplayed) {
@@ -200,66 +259,88 @@ public class GameActivity extends Activity {
 		}
 	}	
 	
+	public void pauseGame(View v) {
+		if(gameState != GameState.PAUSE && gameState != GameState.END) {
+	    	gameState = GameState.PAUSE;
+	    	timeSwapBuff += timeInMilliseconds;
+			customHandler.removeCallbacks(updateTimerThread);
+			
+			LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);  
+		    View popupView = layoutInflater.inflate(R.layout.popup_game_pause, null);
+		    
+		    popupPause = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);		    
+		    popupPause.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+		}
+    }
+	
+	public void resumeGame(View v) {
+		gameState = GameState.START;
+		startTime = SystemClock.uptimeMillis();
+		customHandler.postDelayed(updateTimerThread, 0);
+		popupPause.dismiss();
+	}
+	
+	public void restartGame(View v) {
+		popupPause.dismiss();
+		timerValue.setText("00:00:000");
+		initGame(level);
+	}
+	
+	public void quitGame(View v) {
+		Intent intent = new Intent(GameActivity.this, GameMenuActivity.class);
+		GameActivity.this.startActivity(intent);
+	}
+	
 	public void endGame(boolean won) {
 		gameState = GameState.END;
+		timeSwapBuff += timeInMilliseconds;
+		customHandler.removeCallbacks(updateTimerThread);
 		
-		if(won) {
-			Log.v("END GAME", "SUCCESS");
+		LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);  
+	    View popupView = layoutInflater.inflate(R.layout.popup_game_end, null);
+	    
+	    popupEnd = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);		    
+	    popupEnd.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+		TextView endLabel1 = (TextView) popupView.findViewById(R.id.label1);
+		TextView endLabel2 = (TextView) popupView.findViewById(R.id.label2);
+		
+		if(won) {	
+			endLabel1.setText(R.string.label_win);
+			endLabel2.setText(R.string.label_win2);
+			endLabel1.setTextColor(Color.parseColor("#2980b9"));
+			
+			TextView labelTimer = (TextView) popupView.findViewById(R.id.labelTimer);
+
+			int seconds = (int) (updatedTime / 1000);
+			int minutes = seconds / 60;
+			seconds = seconds % 60;
+			int milliseconds = (int) (updatedTime % 1000);
+			labelTimer.setText("" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds) + ":" + String.format("%03d", milliseconds));
+
 		} else {
-			Log.v("END GAME", "FAILURE");
+			endLabel1.setText(R.string.label_lose);
+			endLabel2.setText(R.string.label_lose2);
+			endLabel1.setTextColor(Color.parseColor("#e74c3c"));
 		}
+	    
+	    Button btnRestart = (Button)popupView.findViewById(R.id.buttonRestart);
+	    btnRestart.setOnClickListener(new Button.OnClickListener(){
+		    public void onClick(View v) {
+		    	popupEnd.dismiss();
+		    	timerValue.setText("00:00:000");
+		    	initGame(level);
+		    }
+		});
+	    
+	    Button btnQuit = (Button)popupView.findViewById(R.id.buttonQuit);
+	    btnQuit.setOnClickListener(new Button.OnClickListener(){
+		    public void onClick(View v) {
+		    	Intent intent = new Intent(GameActivity.this, GameMenuActivity.class);
+				GameActivity.this.startActivity(intent);
+		    }
+		});
 	}
-//	public void setView () {
-//		TableLayout tableLayout = (TableLayout) findViewById(R.id.gameLayout);
-//		
-//		gridHeight = grid.getHeight();
-//		gridWidth = grid.getWidth();
-//		gridCells = grid.getGrid();
-//		
-//		TableRow.LayoutParams params = new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
-//
-//		for(int i=0; i<gridWidth; i++) {
-//			final TableRow row = new TableRow(this);
-////			tr_head.setBackgroundColor(Color.GRAY);
-//		  
-//			for(int j=0; j<gridHeight; j++) {
-//				final Button cell = new Button(this);
-//				cell.setId(i*gridHeight+j);
-//				cell.setText(Integer.toString(gridCells[i][j].GetValue()));
-//				cell.setTextColor(Color.BLACK);
-////				cell.setBackgroundColor(Color.BLUE);
-//				cell.setPadding(2, 2, 2, 2);
-//				cell.setGravity(Gravity.CENTER);
-//				cell.setLayoutParams(params);
-//				cell.setOnClickListener(CreateClickCellListener(cell));
-//				
-//				row.addView(cell);
-//			}		
-//			tableLayout.addView(row);
-//		}
-//	}
-//	
-//	public OnClickListener CreateClickCellListener(final Button cell) {
-//		return new OnClickListener() {			
-//			@Override
-//			public void onClick(View v) {
-//				checkCell(cell);
-//			}
-//		};
-//	}
-//	
-//	public void checkCell (Button cell) {
-//		int id = cell.getId();
-//		int posX = 0;
-//		int posY = 0;
-//		
-//		if(id>0) {
-//			posX = id/gridHeight;
-//			posY = id%gridHeight;
-//		}
-//		
-//		Log.v("POS", posX + ":" + posY + " = " + gridCells[posX][posY].GetValue());
-//	}
 }
 
 

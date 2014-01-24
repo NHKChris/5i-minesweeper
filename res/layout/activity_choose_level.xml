@@ -46,7 +46,7 @@
 	        android:id="@+id/Button02"
 	        android:layout_width="170dp"
 	        android:layout_height="wrap_content"
-
+	        android:layout_marginBottom="15dp"
 	        android:layout_gravity="center_horizontal"
 	        android:text="@string/button_back"
 	        android:onClick="back" />

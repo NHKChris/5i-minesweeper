@@ -19,7 +19,8 @@ public class ChooseLevelActivity extends Activity {
 		ChooseLevelActivity.this.startActivity(intent);
 	}
 	
-	public void back (View v) {
-		
-	}
+    public void back(View v) {
+    	Intent intent = new Intent(ChooseLevelActivity.this, GameMenuActivity.class);
+    	ChooseLevelActivity.this.startActivity(intent);
+    }
 }

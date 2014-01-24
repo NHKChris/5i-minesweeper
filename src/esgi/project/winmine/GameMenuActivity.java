@@ -3,7 +3,6 @@ package esgi.project.winmine;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -23,9 +22,5 @@ public class GameMenuActivity extends Activity {
     public void startGame(View v) {
     	Intent intent = new Intent(GameMenuActivity.this, ChooseLevelActivity.class);
     	GameMenuActivity.this.startActivity(intent);
-    }
-    
-    public void test2(View v) {
-    	Log.v("Test", "Test2");
     }
 }

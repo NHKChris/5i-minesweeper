@@ -12,5 +12,17 @@
     <string name="button_classic">Classic</string>
     <string name="button_hard">Hard</string>
     <string name="button_back">Back</string>
-
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+    <string name="button_restart">Restart</string>
+    <string name="button_quit_to_menu">Quit to menu</string>
+    
+    <string name="game_timer">00:00:000</string>
+    <string name="game_flag_number">Flags: 0/10</string>
+    <string name="game_high_score">00:00:000</string>
+    
+    <string name="label_win">Congratulations</string>
+    <string name="label_win2">You sweeped all the mines!</string>
+	<string name="label_lose">Failure</string>
+    <string name="label_lose2">You died doing your job.</string>
 </resources>
