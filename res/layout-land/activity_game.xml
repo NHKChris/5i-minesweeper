@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gameLinearLayout"
-    android:orientation="vertical" 
+    android:orientation="horizontal" 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent">"
     
     <GridView
 	    android:id="@+id/gameGrid"
@@ -12,22 +12,56 @@
 	    android:columnWidth="0dp"
 	    android:verticalSpacing="0dp"
 	    android:horizontalSpacing="0dp"
-	    android:gravity="center"
+	    android:layout_gravity="left|center_vertical"
+	    android:layout_marginLeft="5dp"
+	    android:gravity="left"
 	/>
     
-
-<!--    	<TextView
-   	    android:id="@+id/gameChrono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00:00:00"/> -->
+    <LinearLayout 
+        android:orientation="vertical" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+        
+        <TextView
+	        android:id="@+id/gameTimer"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:text="@string/game_timer"
+	        android:layout_marginBottom="10dp"
+	        android:textSize="30sp" />
+        
+        <TextView
+	        android:id="@+id/gameFlag"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:text="@string/game_flag_number"
+	        android:textSize="20sp" />
     
-<!-- 	<TableLayout
-	 	android:id="@+id/gameLayout" 
-		android:layout_width="fill_parent"
-   		android:layout_height="fill_parent"
-    	android:stretchColumns="1">
-	    
-	</TableLayout> -->
+ 		<TextView
+	        android:id="@+id/gameHighScore"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:text="@string/game_high_score"
+	        android:textSize="20sp" />
+ 		
+ 		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="fill_parent"
+		    android:gravity="center|bottom"
+		    android:orientation="vertical" >
+		 		<Button
+			        android:id="@+id/buttonPause"
+			        android:layout_width="300dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_horizontal"
+			        android:layout_marginBottom="10dp"
+			        android:text="@string/button_pause" 
+			        android:onClick="pauseGame" 
+			        android:tag="1"/>
+         </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

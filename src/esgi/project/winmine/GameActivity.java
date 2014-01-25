@@ -1,7 +1,10 @@
 package esgi.project.winmine;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +30,9 @@ class GameState {
 	public static final int END = 3;
 }
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity {	
 	private String level;
+	private String currentPrefKey;
 	
 	private Grid grid;
 	private int gridHeight;
@@ -75,18 +79,16 @@ public class GameActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);  
-        
+       
         Intent intent = getIntent();
         level = intent.getStringExtra("level");
-        
-        this.initGame(level);
+        currentPrefKey = Utility.KEY + level;
         
         timerValue = (TextView) findViewById(R.id.gameTimer);
-        flagsValue = (TextView) findViewById(R.id.gameFlag);         
-        flagsValue.setText("Flags: " + numberOfFlag + "/" + grid.getNumberOfBombs());
-        
+        flagsValue = (TextView) findViewById(R.id.gameFlag);     
         highScore = (TextView) findViewById(R.id.gameHighScore);
-        highScore.setText("Best time : 00:00:000");
+        
+        this.initGame(level);
     }
 
 	public void initGame(String value) {    	
@@ -106,6 +108,12 @@ public class GameActivity extends Activity {
     	timeInMilliseconds = 0L;
     	timeSwapBuff = 0L;
     	updatedTime = 0L;
+        
+        long highScoreLong = getScore();
+        String highScoreString = (highScoreLong > 0) ? Utility.timerToString(highScoreLong) : "00:00:000";       
+
+        highScore.setText("Best time : " + highScoreString);
+        flagsValue.setText("Flags: " + numberOfFlag + "/" + grid.getNumberOfBombs());
     	
     	gameState = GameState.START;
 	}
@@ -114,10 +122,13 @@ public class GameActivity extends Activity {
 		gridView = (GridView) findViewById(R.id.gameGrid);
 		gridView.setNumColumns(gridHeight);
 		gridView.setAdapter(new ImageAdapter(this, gridHeight * gridWidth));
-
+		LayoutParams params = gridView.getLayoutParams();
+		params.width = gridWidth * ((level.equals("1")) ? 80 : 50);		
+		gridView.setLayoutParams(params);
+		
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	        	if(gameState == GameState.START) {
+	        	if(gameState == GameState.START) {	        		
 		    		Cell cellClicked = getCellClicked(position);
 		    		checkCell(cellClicked);
 		    		checkGame();
@@ -157,6 +168,7 @@ public class GameActivity extends Activity {
 		if(!cell.IsDisplayed() && !cell.IsFlag()) {
 			int value = cell.GetValue();
 			displayCell(cell);
+			Log.v("Test", "Coucou5");
 			
 			if(value < 0) {
 				endGame(false);
@@ -209,18 +221,14 @@ public class GameActivity extends Activity {
 		if(!cell.IsDisplayed()) {
 			int position = getPosition(cell);
 			int value = cell.GetValue();			
-			int drawIndex;
-			
-			if(cell.IsBomb()) {
-				drawIndex = R.drawable.cell_mine;
-			} else {
+			int drawIndex = R.drawable.cell_mine;
+			if(!cell.IsBomb()) {
 				drawIndex = gridImages[value];
+				cell.SetDisplayed();
+				numberOfCellsDisplayed++;
 			}
-			
-			ImageView imageView = (ImageView)gridView.getChildAt(position);
+			ImageView imageView = (ImageView)gridView.getChildAt(position);	
 			imageView.setImageResource(drawIndex);
-			cell.SetDisplayed();
-			numberOfCellsDisplayed++;
 		}
 	}
 	
@@ -243,12 +251,7 @@ public class GameActivity extends Activity {
 		public void run() {
 			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;			
 			updatedTime = timeSwapBuff + timeInMilliseconds;
-			
-			int seconds = (int) (updatedTime / 1000);
-			int minutes = seconds / 60;
-			seconds = seconds % 60;
-			int milliseconds = (int) (updatedTime % 1000);
-			timerValue.setText("" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds) + ":" + String.format("%03d", milliseconds));
+			timerValue.setText(Utility.timerToString(updatedTime));
 			customHandler.postDelayed(this, 0);
 		}
 	};
@@ -291,6 +294,22 @@ public class GameActivity extends Activity {
 		GameActivity.this.startActivity(intent);
 	}
 	
+	public void saveScore() {
+		long currentScore = getScore();
+		
+		if(currentScore == 0 || currentScore > updatedTime) {
+			SharedPreferences prefs = this.getSharedPreferences(Utility.PREF_KEY, Context.MODE_PRIVATE);
+			Editor editor = prefs.edit();
+			editor.putLong(currentPrefKey, updatedTime);
+			editor.commit();
+		}		
+	}
+	
+	public long getScore() {
+		SharedPreferences prefs = this.getSharedPreferences(Utility.PREF_KEY, Context.MODE_PRIVATE);
+		return prefs.getLong(currentPrefKey, 0);
+	}
+	
 	public void endGame(boolean won) {
 		gameState = GameState.END;
 		timeSwapBuff += timeInMilliseconds;
@@ -310,13 +329,10 @@ public class GameActivity extends Activity {
 			endLabel2.setText(R.string.label_win2);
 			endLabel1.setTextColor(Color.parseColor("#2980b9"));
 			
+			saveScore();
+			
 			TextView labelTimer = (TextView) popupView.findViewById(R.id.labelTimer);
-
-			int seconds = (int) (updatedTime / 1000);
-			int minutes = seconds / 60;
-			seconds = seconds % 60;
-			int milliseconds = (int) (updatedTime % 1000);
-			labelTimer.setText("" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds) + ":" + String.format("%03d", milliseconds));
+			labelTimer.setText(Utility.timerToString(updatedTime));
 
 		} else {
 			endLabel1.setText(R.string.label_lose);

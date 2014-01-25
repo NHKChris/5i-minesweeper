@@ -23,4 +23,16 @@ public class GameMenuActivity extends Activity {
     	Intent intent = new Intent(GameMenuActivity.this, ChooseLevelActivity.class);
     	GameMenuActivity.this.startActivity(intent);
     }
+    
+    public void showScores(View v) {
+    	Intent intent = new Intent(GameMenuActivity.this, GameScoreActivity.class);
+    	GameMenuActivity.this.startActivity(intent);
+    }
+    
+    public void quitGame(View v) {
+    	Intent intent = new Intent();
+    	intent.setAction(Intent.ACTION_MAIN);
+    	intent.addCategory(Intent.CATEGORY_HOME);
+    	this.startActivity(intent);
+    }
 }

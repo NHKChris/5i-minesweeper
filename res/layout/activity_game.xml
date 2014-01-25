@@ -11,18 +11,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/game_timer"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:textSize="30sp" />
     
     <GridView
 	    android:id="@+id/gameGrid"
-	    android:layout_width="wrap_content" 
+	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:columnWidth="0dp"
 	    android:verticalSpacing="0dp"
 	    android:horizontalSpacing="0dp"
 	    android:layout_gravity="center_horizontal"
 	    android:gravity="center"
+	    android:background="#ff0000"
 	/>
     
     <LinearLayout

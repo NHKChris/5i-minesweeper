@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+	<LinearLayout
+	    android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:orientation="vertical"
+		android:gravity="center"
+		android:layout_weight="1">
+	    
+	    <TextView
+	        android:id="@+id/highScoreLabel1"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/button_easy"
+			android:textSize="15sp">	        
+	    </TextView>
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="2dp"
+		    android:layout_marginTop="5dp"
+		    android:layout_marginBottom="5dp"
+		    android:background="#2980b9"/>
+	    <TextView
+	        android:id="@+id/highScore1"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+		    android:layout_marginBottom="15dp"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/game_high_score"
+			android:textSize="20sp">	        
+	    </TextView>
+	    
+	    <TextView
+	        android:id="@+id/highScoreLabel2"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/button_classic"
+			android:textSize="15sp">	        
+	    </TextView>
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="2dp"
+		    android:layout_marginTop="5dp"
+		    android:layout_marginBottom="5dp"
+		    android:background="#2980b9"/>
+	    <TextView
+	        android:id="@+id/highScore2"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:layout_marginBottom="15dp"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/game_high_score"
+			android:textSize="20sp">	        
+	    </TextView>	    
+	    
+	    <TextView
+	        android:id="@+id/highScoreLabel3"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/button_hard"
+			android:textSize="15sp">	        
+	    </TextView>
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="2dp"
+		    android:layout_marginTop="5dp"
+		    android:layout_marginBottom="5dp"
+		    android:background="#2980b9"/>
+	    <TextView
+	        android:id="@+id/highScore3"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/game_high_score"
+			android:textSize="20sp">	        
+	    </TextView>
+	    
+    </LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center|bottom"
+	    android:orientation="vertical" >
+
+	    <Button
+	        android:id="@+id/buttonBack"
+	        android:layout_width="170dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="15dp"
+	        android:layout_gravity="center_horizontal"
+	        android:text="@string/button_back"
+	        android:onClick="back" />
+	</LinearLayout>
+</LinearLayout>
+
+

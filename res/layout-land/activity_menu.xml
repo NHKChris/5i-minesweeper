@@ -24,17 +24,24 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 	    <Button
-	        android:id="@+id/button1"
+	        android:id="@+id/buttonStartGame"
 	        android:layout_width="170dp"
 	        android:layout_height="wrap_content"
 	        android:text="@string/button_start_game" 
 	        android:onClick="startGame"/>
 	
 	    <Button
-	        android:id="@+id/button2"
+	        android:id="@+id/buttonHighScore"
 	        android:layout_width="170dp"
 	        android:layout_height="wrap_content"
 	        android:text="@string/button_high_score" 
-	        android:onClick="test2"/>
+	        android:onClick="showScores"/>
+	    
+	    <Button
+	        android:id="@+id/buttonQuitGame"
+	        android:layout_width="170dp"
+	        android:layout_height="wrap_content"
+	        android:text="@string/button_quit_game" 
+	        android:onClick="quitGame"/>
     </LinearLayout>
 </LinearLayout>

@@ -16,19 +16,16 @@
         <activity
             android:name="esgi.project.winmine.GameMenuActivity"
             android:label="@string/app_name" >
-           <!--  <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
-        </activity>
-        
-        <activity android:name="esgi.project.winmine.ChooseLevelActivity" android:label="@string/app_name" >
-            <intent-filter>
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            </activity>
-        <activity android:name="esgi.project.winmine.GameActivity" android:label="@string/app_name" />
+        </activity>
+        
+        <activity android:name="esgi.project.winmine.ChooseLevelActivity" android:label="@string/header_level" />        
+        <activity android:name="esgi.project.winmine.GameScoreActivity" android:label="@string/header_scores" />
+        <activity android:name="esgi.project.winmine.GameActivity" android:label="@string/header_game" 
+            android:theme="@style/NoTitle"/>
     </application>
 
 </manifest>

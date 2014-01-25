@@ -29,7 +29,7 @@ public class Grid {
 				break;
 				
 			case 3:
-				initVariables(14, 14, 40);
+				initVariables(13, 13, 30);
 				break;
 		}
 	}

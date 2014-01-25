@@ -19,7 +19,7 @@
         android:src="@drawable/ic_launcher" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/ButtonStartGame"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -27,11 +27,19 @@
         android:onClick="startGame"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/ButtonHighScore"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/button_high_score" 
-        android:onClick="test2"/>
+        android:onClick="showScores"/>
+    
+    <Button
+        android:id="@+id/ButtonQuit"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/button_quit_game" 
+        android:onClick="quitGame"/>
 
 </LinearLayout>
