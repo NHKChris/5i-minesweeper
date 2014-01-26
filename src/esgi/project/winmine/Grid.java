@@ -11,7 +11,7 @@ public class Grid {
 	private List<Cell> bombCoords;	
 	
 	public Grid() {
-		initVariables(5, 5, 10);
+		initVariables(7, 7, 5);
 	}
 	
 	public Grid(int w, int h, int b) {
@@ -21,15 +21,15 @@ public class Grid {
 	public Grid(int level) {
 		switch(level) {
 			case 1:
-				initVariables(5, 8, 5);
+				initVariables(7, 7, 5);
 				break;
 				
 			case 2:
-				initVariables(10, 10, 10);
+				initVariables(10, 10, 15);
 				break;
 				
 			case 3:
-				initVariables(13, 13, 30);
+				initVariables(13, 13, 25);
 				break;
 		}
 	}

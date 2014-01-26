@@ -123,7 +123,7 @@ public class GameActivity extends Activity {
 		gridView.setNumColumns(gridHeight);
 		gridView.setAdapter(new ImageAdapter(this, gridHeight * gridWidth));
 		LayoutParams params = gridView.getLayoutParams();
-		params.width = gridWidth * ((level.equals("1")) ? 80 : 50);		
+		params.width = gridWidth * 50;		
 		gridView.setLayoutParams(params);
 		
 		gridView.setOnItemClickListener(new OnItemClickListener() {

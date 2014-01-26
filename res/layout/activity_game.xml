@@ -24,7 +24,6 @@
 	    android:horizontalSpacing="0dp"
 	    android:layout_gravity="center_horizontal"
 	    android:gravity="center"
-	    android:background="#ff0000"
 	/>
     
     <LinearLayout
